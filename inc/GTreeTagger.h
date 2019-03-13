@@ -16,6 +16,7 @@ class  GTreeTagger : public GTree
 private:
     Int_t           nTagged;
     Int_t           taggedChannel[GTreeTagger_MAX];
+    Double_t           multiHits[GTreeTagger_MAX];
     Double_t        taggedTime[GTreeTagger_MAX];
     Double_t        taggedEnergy[GTreeTagger_MAX];
     Bool_t          taggedDouble[GTreeTagger_MAX];
@@ -43,6 +44,8 @@ public:
             Int_t           GetNTagged()                        const	{return nTagged;}
     const	Int_t*          GetTaggedChannel()                  const	{return taggedChannel;}
             Int_t           GetTaggedChannel(const Int_t index) const	{return taggedChannel[index];}
+    const       Double_t*          GetMultiHits()                  const	{return multiHits;}
+	    Double_t           GetMultiHits(const Int_t index)     const	{return multiHits[index];}
     const	Double_t*       GetTaggedTime()                     const	{return taggedTime;}
             Double_t        GetTaggedTime(const Int_t index)    const	{return taggedTime[index];}
     const	Double_t*       GetTaggedEnergy()                   const	{return taggedEnergy;}

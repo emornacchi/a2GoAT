@@ -152,7 +152,34 @@ add_executable(pi0-example
    src/PPi0Example.cc
    src/pi0_example_main.cc
    )
-target_link_libraries(pi0-example goatbase ghist ${LIBS} ${ROOT_LIBRARIES})
+ target_link_libraries(pi0-example goatbase ghist ${LIBS} ${ROOT_LIBRARIES})
+
+ add_executable(Compton-Edo
+  ${GOAT_BASE}
+  ${GOAT_GHIST}
+  inc/ComptonEdo.h
+  src/ComptonEdo.cc
+  src/Compton_Edo_main.cc
+  )
+target_link_libraries(Compton-Edo ${LIBS} ${ROOT_LIBRARIES})
+
+add_executable(NewCompton-Edo
+   inc/PPhysics.h
+   src/PPhysics.cc
+   inc/NewComptonEdo.h
+   src/NewComptonEdo.cc
+   src/NewComptonEdo_main.cc
+   )
+ target_link_libraries(NewCompton-Edo goatbase ghist ${LIBS} ${ROOT_LIBRARIES})
+
+ add_executable(PPi0Edo
+   inc/PPhysics.h
+   src/PPhysics.cc
+   inc/PPi0Edo.h
+   src/PPi0Edo.cc
+   src/PPi0Edo_main.cc
+   )
+target_link_libraries(PPi0Edo goatbase ghist ${LIBS} ${ROOT_LIBRARIES})
 
 add_executable(TaggEff
    inc/PPhysics.h

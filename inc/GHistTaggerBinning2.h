@@ -23,7 +23,7 @@ public:
     GHistTaggerBinning2(const char* name, const char* title,
                        const Int_t nbinsx, const Double_t xlow, const Double_t xup,
                        const Int_t nbinsy, const Double_t ylow, const Double_t yup,
-                       const Int_t nTaggerBins = 352,
+                       const Int_t nTaggerBins = 1,
                        const Bool_t linkHistogram = kTRUE);
     virtual ~GHistTaggerBinning2();
 

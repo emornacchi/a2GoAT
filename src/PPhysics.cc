@@ -384,6 +384,79 @@ void PPhysics::FillMissingMass(const GTreeParticle& tree, Int_t particle_index, 
 
 }
 
+//    ||||||||||||||||||||
+//    ||  EDO routines  || --->
+//    ||||||||||||||||||||
+
+void PPhysics::FillThetaMissingMass(const GTreeParticle& tree, GH2* gHist, Bool_t TaggerBinning)
+{
+	for (Int_t i = 0; i < tree.GetNParticles(); i++)
+	{
+	  for (Int_t j = 0; j < GetTagger()->GetNTagged(); j++)
+	    {
+	      FillThetaMissingMass(tree, i, j, gHist, TaggerBinning);
+	    }
+	}
+}
+
+void PPhysics::FillThetaMissingMass(const GTreeParticle& tree, Int_t particle_index, GH2* gHist, Bool_t TaggerBinning)
+{
+    for (Int_t i = 0; i < GetTagger()->GetNTagged(); i++)
+	{
+        FillThetaMissingMass(tree, particle_index, i, gHist, TaggerBinning);
+	}
+}
+
+void PPhysics::FillThetaMissingMass(const GTreeParticle& tree, Int_t particle_index, Int_t tagger_index, GH2* gHist, Bool_t TaggerBinning)
+{
+    if(RejectTagged(tagger_index)) return;
+
+    // calc particle time diff
+    time = GetTagger()->GetTaggedTime(tagger_index) - tree.GetTime(particle_index);
+    
+    // calc missing p4
+    missingp4 = CalcMissingP4(tree, particle_index,tagger_index);
+
+   // Fill GH1
+    if(TaggerBinning)   gHist->Fill(missingp4.M(),tree.GetTheta(particle_index),time, GetTagger()->GetTaggedChannel(tagger_index));
+    else gHist->Fill(missingp4.M(),tree.GetTheta(particle_index),time);
+
+}
+
+void PPhysics::FillTaggedPhotons(const GTreeParticle& tree, GH1* gHist)
+{
+  for (Int_t i = 0; i < tree.GetNParticles(); i++)
+    {
+      for (Int_t j = 0; j < GetTagger()->GetNTagged(); j++)
+	{
+	  FillTaggedPhotons(tree, i, j, gHist);
+	}
+    }
+}
+
+void PPhysics::FillTaggedPhotons(const GTreeParticle& tree, Int_t particle_index, GH1* gHist)
+{
+  for (Int_t i = 0; i < GetTagger()->GetNTagged(); i++)
+    {
+      FillTaggedPhotons(tree, particle_index, i, gHist);
+    }
+}
+
+void PPhysics::FillTaggedPhotons(const GTreeParticle& tree, Int_t particle_index, Int_t tagger_index, GH1* gHist)
+{
+  if(RejectTagged(tagger_index)) return;
+
+  // calc particle time diff
+  time = GetTagger()->GetTaggedTime(tagger_index) - tree.GetTime(particle_index);
+
+  gHist->Fill(GetTagger()->GetTaggedChannel(tagger_index),time);
+
+}
+
+//      ||||||||||||||||||||
+// <--- ||  EDO routines  ||
+//      ||||||||||||||||||||
+
 Double_t PPhysics::CalcMissingMass(const GTreeParticle& tree, Int_t particle_index, Int_t tagger_index)
 {
     missingp4 	= CalcMissingP4(tree, particle_index, tagger_index);
@@ -494,6 +567,28 @@ void PPhysics::FillMass(const GTreeParticle& tree, Int_t particle_index, GH1* gH
 {
     gHist->Fill(tree.GetMass(particle_index));
 }
+
+//    ||||||||||||||||||||
+//    ||  EDO routines  || --->
+//    ||||||||||||||||||||
+
+void PPhysics::FillThetaMass(const GTreeParticle& tree, GH2* gHist)
+{
+    for (Int_t i = 0; i < tree.GetNParticles(); i++)
+	{
+	  gHist->Fill(tree.GetMass(i),tree.GetTheta(i));
+	}
+}
+
+void PPhysics::FillThetaMass(const GTreeParticle& tree, Int_t particle_index, GH2* gHist)
+{
+  gHist->Fill(tree.GetMass(particle_index),tree.GetTheta(particle_index));
+}
+
+//      ||||||||||||||||||||
+// <--- ||  EDO routines  ||
+//      ||||||||||||||||||||
+
 
 Bool_t 	PPhysics::Write()
 {

@@ -64,6 +64,7 @@ void	PTaggEff::ProcessEvent()
     if(nTaggerChannels == 0)
     {
         nTaggerChannels = GetSetupParameters()->GetNTagger();
+	
         TaggerTime = new TH2D("TaggerTime","Tagger - Time",1400,-700,700,nTaggerChannels,0,nTaggerChannels);
         TaggerPreHits = new TH1D("TaggerPreHits","Tagger - Previous Hits",nTaggerChannels,0,nTaggerChannels);
         TaggerCurHits = new TH1D("TaggerCurHits","Tagger - Current Hits",nTaggerChannels,0,nTaggerChannels);
@@ -79,13 +80,14 @@ void	PTaggEff::ProcessEvent()
     }
 
     if(GetDecodeDoubles()) GetTagger()->DecodeDoubles();
-
+    
     for (Int_t i = 0; i < GetTagger()->GetNTagged(); i++)
     {
         TaggerTime->Fill(GetTagger()->GetTaggedTime(i),GetTagger()->GetTaggedChannel(i));
         TaggerAllHits->Fill(GetTagger()->GetTaggedChannel(i),GetTagger()->GetTaggedTime(i));
         if(RejectTagged(i)) continue;
         TaggerSingles->Fill(GetTagger()->GetTaggedChannel(i),GetTagger()->GetTaggedTime(i));
+	
         TaggerDoubles->Fill(GetTagger()->GetTaggedChannel(i),GetTagger()->GetTaggedTime(i));
     }
     for (Int_t i = 0; i < GetTagger()->GetNDouble(); i++)
